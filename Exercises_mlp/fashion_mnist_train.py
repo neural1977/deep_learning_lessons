@@ -37,7 +37,7 @@ for k in range(1):
     plt.pause(3)
     plt.close()
     
-X_train = X_train.reshape(60000,784)
+X_train = X_train.reshape(60000,784)                # linearization of image data (which is 2-dimensional originally) because our model is mlp, so accept only linear data, unlike convolutional networks
 X_test = X_test.reshape(10000,784)
 
 # Normalization (testare come senza normalizzazione converge molto tardi a 95% rispetto alla normalizzazione)
