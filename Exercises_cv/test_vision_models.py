@@ -13,28 +13,25 @@ import pdb
 
 depth = 3
 
-neural_model = 'Xception'
+#neural_model = 'Xception'
 #neural_model = 'VGG16'
 #neural_model = 'VGG19'
-#neural_model = 'ResNet50'
+neural_model = 'ResNet50'
 #neural_model = 'MobileNet'
 #neural_model = 'InceptionResNetV2'
 #neural_model = 'NASNetLarge'
 
-'''
-# NASNetLarge
-height = 331
-width = 331
-inputShape = (depth, height, width)
-'''
-
 if neural_model == 'ResNet50' or neural_model == 'VGG16' or neural_model == 'MobileNet' or neural_model == 'VGG19': 
     height = 224
     width = 224
-    inputShape = (depth, height, width)
+    inputShape = (height, width, depth)
 elif neural_model == 'InceptionResNetV2' or neural_model == 'Xception': 
     height = 299
     width = 299
+    inputShape = (height, width, depth)
+elif neural_model == 'NASNetLarge':
+    height = 331
+    width = 331
     inputShape = (height, width, depth)
 
 pre_trained = True
@@ -51,19 +48,19 @@ class AdvancedCVModel:
     def build(neural_model, inputShape, classes, summary):
     
         if neural_model == 'Xception':
-            model = Xception(weights=weights, input_shape = inputShape)
+            model = Xception(weights = weights, input_shape = inputShape)
         elif neural_model == 'VGG16': 
-            model = VGG16(weights = None)
+            model = VGG16(weights = weights, input_shape = inputShape)
         elif neural_model == 'VGG19':
-            model = VGG19(weights = None)
+            model = VGG19(weights = weights, input_shape = inputShape)
         elif neural_model == 'ResNet50':
-            model = ResNet50(weights=weights)
+            model = ResNet50(weights = weights, input_shape = inputShape)
         elif neural_model == 'MobileNet':
-            model = MobileNet(weights=weights)
+            model = MobileNet(weights = weights, input_shape = inputShape)
         elif neural_model == 'InceptionResNetV2':
-            model = InceptionResNetV2(weights=weights)
+            model = InceptionResNetV2(weights = weights, input_shape = inputShape)
         elif neural_model == 'NASNetLarge':
-            model = NASNetLarge(weights=weights)
+            model = NASNetLarge(weights = weights, input_shape = inputShape)
 
         #if summary==True:
         model.summary()
@@ -71,11 +68,10 @@ class AdvancedCVModel:
         # return the constructed network architecture
         return model
         
-img_path = 'elephant.jpg'
+#img_path = 'elephant.jpg'
+img_path = '130.jpg'
 img = image.load_img(img_path, target_size=(width, height))
 x = image.img_to_array(img)
-if neural_model == 'Xception':
-    x = np.moveaxis(x, 0, 2) # For Xception channels last
 x = np.expand_dims(x, axis=0)
 x = preprocess_input(x)
 
