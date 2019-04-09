@@ -16,6 +16,10 @@ depth = 3
 neural_model = 'Xception'
 #neural_model = 'VGG16'
 #neural_model = 'VGG19'
+#neural_model = 'ResNet50'
+#neural_model = 'MobileNet'
+#neural_model = 'InceptionResNetV2'
+#neural_model = 'NASNetLarge'
 
 '''
 # NASNetLarge
