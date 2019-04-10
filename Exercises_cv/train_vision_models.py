@@ -16,6 +16,8 @@ from keras.callbacks import ModelCheckpoint
 from keras.datasets import cifar10
 from keras.utils import to_categorical
 from keras.optimizers import SGD
+from keras.preprocessing.image import array_to_img, img_to_array
+import matplotlib.pyplot as plt
 
 import os
 import pdb
