@@ -29,7 +29,7 @@ import warnings
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore",category=DeprecationWarning)
 
-proxy = True
+proxy = False
 proxy_server = "http://proxy.istat.it:3128"
 default_callbacks = []
 epochs = 10
@@ -45,9 +45,9 @@ data_type = 'float32'
 #neural_model = 'Xception'
 #neural_model = 'VGG16'
 #neural_model = 'VGG19'
-neural_model = 'ResNet50'
+#neural_model = 'ResNet50'
 #neural_model = 'MobileNet'
-#neural_model = 'InceptionResNetV2'
+neural_model = 'InceptionResNetV2'
 #neural_model = 'NASNetLarge'
 
 if neural_model == 'ResNet50' or neural_model == 'VGG16' or neural_model == 'MobileNet' or neural_model == 'VGG19': 
@@ -101,7 +101,7 @@ if proxy == True:
 def resize_image_arr(img_arr, height, width):
     x_resized_list = []
     for i in range(img_arr.shape[0]):
-        img = img_arr[0]
+        img = img_arr[i]
         #resized_img = resize(img, (height, width))
         resized_img = cv2.resize(img, (height, width))
         x_resized_list.append(resized_img)
@@ -181,7 +181,7 @@ if full_model_trainable == False:
 model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics = ['accuracy'])
 #model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics = ['accuracy'])
 
-checkPoint=ModelCheckpoint("advanceed_cifar10.cnn", save_weights_only=True, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+checkPoint=ModelCheckpoint("advanced_cifar10.cnn", save_weights_only=True, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 default_callbacks = default_callbacks+[checkPoint]
 
 # Train the model, iterating on the data in batches
