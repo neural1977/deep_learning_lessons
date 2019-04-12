@@ -18,6 +18,7 @@ default_callbacks = []
 limit = None
 split = None
 epochs = 100
+show_dataset = False
 
 # Set CPU or GPU type
 gpu = True
@@ -32,20 +33,21 @@ else:
 (X_train, y_train), (X_test, y_test) = cifar10.load_data()
 # Show the first image from the training set
 
-plt.imshow(array_to_img(X_train[0]))
-plt.savefig("first_cifar10_mnist_train_image.jpg")
-print("First cifar10 mnist train image", y_train[0][0])
-plt.show(block = False)
-plt.pause(3)
-plt.close()
+if show_dataset == True: 
+    plt.imshow(array_to_img(X_train[0]))
+    plt.savefig("first_cifar10_mnist_train_image.jpg")
+    print("First cifar10 mnist train image", y_train[0][0])
+    plt.show(block = False)
+    plt.pause(3)
+    plt.close()
 
-# Show the first image from the test set
-plt.imshow(array_to_img(X_test[0]))
-plt.savefig("first_cifar10_mnist_test_image.jpg")
-print("First fashion mnist test image", y_test[0][0])
-plt.show(block = False)
-plt.pause(3)
-plt.close()
+    # Show the first image from the test set
+    plt.imshow(array_to_img(X_test[0]))
+    plt.savefig("first_cifar10_mnist_test_image.jpg")
+    print("First fashion mnist test image", y_test[0][0])
+    plt.show(block = False)
+    plt.pause(3)
+    plt.close()
 
 #pdb.set_trace()
 
