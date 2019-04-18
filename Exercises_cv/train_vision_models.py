@@ -32,8 +32,8 @@ with warnings.catch_warnings():
 proxy = False
 proxy_server = "http://proxy.istat.it:3128"
 default_callbacks = []
-epochs = 10
-batch_size = 32
+epochs = 100
+batch_size = 8
 data_augmentation = False
 full_model_trainable = True
 depth = 3
@@ -47,8 +47,8 @@ data_type = 'float32'
 #neural_model = 'VGG19'
 #neural_model = 'ResNet50'
 #neural_model = 'MobileNet'
-neural_model = 'InceptionResNetV2'
-#neural_model = 'NASNetLarge'
+#neural_model = 'InceptionResNetV2'
+neural_model = 'NASNetLarge'
 
 if neural_model == 'ResNet50' or neural_model == 'VGG16' or neural_model == 'MobileNet' or neural_model == 'VGG19': 
     height = 224
@@ -88,7 +88,7 @@ class AdvancedCVModel:
         elif neural_model == 'InceptionResNetV2':
             model = InceptionResNetV2(weights = weights, include_top=False, input_shape = inputShape)
         elif neural_model == 'NASNetLarge':
-            model = NASNetLarge(weights = weights, input_shape = inputShape)
+            model = NASNetLarge(weights = weights, include_top=False, input_shape = inputShape)
 
         # return the constructed network architecture
         return model
