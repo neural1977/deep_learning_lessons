@@ -92,7 +92,7 @@ class AdvancedCVModel:
 def resize_image_arr(img_arr, height, width):
     x_resized_list = []
     for i in range(img_arr.shape[0]):
-        img = img_arr[0]
+        img = img_arr[i]
         #resized_img = resize(img, (height, width))
         resized_img = cv2.resize(img, (height, width))
         x_resized_list.append(resized_img)
@@ -153,7 +153,7 @@ x = base_model.output
 x = GlobalAveragePooling2D()(x)
 # let's add a fully-connected layer
 x = Dense(1024, activation='relu')(x)
-# and a logistic layer -- let's say we have 200 classes
+# and a logistic layer -- let's say we have 10 classes
 predictions = Dense(10, activation='softmax')(x)
 
 # this is the model we will train
@@ -173,7 +173,7 @@ model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics = ['
 
 checkPoint=ModelCheckpoint("advanceed_cifar10.cnn", save_weights_only=True, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 default_callbacks = default_callbacks+[checkPoint]
-
+pdb.set_trace()
 # Train the model, iterating on the data in batches
 if data_augmentation == False: 
 	history = model.fit(X_train, y_train, batch_size = batch_size, epochs = epochs, validation_data = (X_val, y_val), callbacks = default_callbacks, verbose = 2)

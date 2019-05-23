@@ -24,7 +24,8 @@ neural_model = 'ResNet50'
 if neural_model == 'ResNet50' or neural_model == 'VGG16' or neural_model == 'MobileNet' or neural_model == 'VGG19': 
     height = 224
     width = 224
-    inputShape = (height, width, depth)
+    #inputShape = (height, width, depth)
+    inputShape = (depth, height, width)
 elif neural_model == 'InceptionResNetV2' or neural_model == 'Xception': 
     height = 299
     width = 299
@@ -68,8 +69,8 @@ class AdvancedCVModel:
         # return the constructed network architecture
         return model
         
-#img_path = 'elephant.jpg'
-img_path = '130.jpg'
+img_path = 'elephant.jpg'
+#img_path = '130.jpg'
 img = image.load_img(img_path, target_size=(width, height))
 x = image.img_to_array(img)
 x = np.expand_dims(x, axis=0)

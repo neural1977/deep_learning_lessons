@@ -18,6 +18,8 @@ default_callbacks = []
 limit = None
 split = None
 epochs = 100
+training = False
+classify = True
 
 # Set CPU or GPU type
 gpu = True
@@ -83,19 +85,26 @@ model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics = ['accura
               
 model.summary()
 
-# Convert labels to categorical one-hot encoding
-y_train = keras.utils.to_categorical(y_train, num_classes=10)
-y_test = keras.utils.to_categorical(y_test, num_classes=10)
+if training == True: 
+    # Convert labels to categorical one-hot encoding
+    y_train = keras.utils.to_categorical(y_train, num_classes=10)
+    y_test = keras.utils.to_categorical(y_test, num_classes=10)
 
-checkPoint=ModelCheckpoint("cifar10.cnn", save_weights_only=True, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-default_callbacks = default_callbacks+[checkPoint]
+    checkPoint=ModelCheckpoint("cifar10.cnn", save_weights_only=True, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+    default_callbacks = default_callbacks+[checkPoint]
 
-#earlyStopping=EarlyStopping(monitor='val_loss', min_delta = 0.01, patience=10, 
-#                                                        verbose=0, mode='min') 
-#default_callbacks = default_callbacks+[earlyStopping]
+    #earlyStopping=EarlyStopping(monitor='val_loss', min_delta = 0.01, patience=10, 
+    #                                                        verbose=0, mode='min') 
+    #default_callbacks = default_callbacks+[earlyStopping]
 
-# Train the model, iterating on the data in batches of 32 samples
-model.fit(X_train, y_train, validation_split = 0.2, epochs=epochs, batch_size=32, callbacks = default_callbacks, verbose = 2)
+    # Train the model, iterating on the data in batches of 32 samples
+    model.fit(X_train, y_train, validation_split = 0.2, epochs=epochs, batch_size=32, callbacks = default_callbacks, verbose = 2)
 
-score = model.evaluate(X_test, y_test, batch_size=32)
-print(score)
+    score = model.evaluate(X_test, y_test, batch_size=32)
+    print(score)
+
+if classify == True:
+    model.load_weights("cifar10.cnn")
+    # load the image, pre-process it, and store it in the data list
+    image = cv2.imread("first_cifar10_mnist_test_image.jpg")
+    
