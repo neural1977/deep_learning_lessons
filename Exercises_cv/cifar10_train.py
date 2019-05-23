@@ -18,8 +18,12 @@ default_callbacks = []
 limit = None
 split = None
 epochs = 100
+<<<<<<< HEAD
 training = False
 classify = True
+=======
+show_dataset = False
+>>>>>>> 7d593c793947b4d6283758d8d74cce9d9444f079
 
 # Set CPU or GPU type
 gpu = True
@@ -34,20 +38,21 @@ else:
 (X_train, y_train), (X_test, y_test) = cifar10.load_data()
 # Show the first image from the training set
 
-plt.imshow(array_to_img(X_train[0]))
-plt.savefig("first_cifar10_mnist_train_image.jpg")
-print("First cifar10 mnist train image", y_train[0][0])
-plt.show(block = False)
-plt.pause(3)
-plt.close()
+if show_dataset == True: 
+    plt.imshow(array_to_img(X_train[0]))
+    plt.savefig("first_cifar10_mnist_train_image.jpg")
+    print("First cifar10 mnist train image", y_train[0][0])
+    plt.show(block = False)
+    plt.pause(3)
+    plt.close()
 
-# Show the first image from the test set
-plt.imshow(array_to_img(X_test[0]))
-plt.savefig("first_cifar10_mnist_test_image.jpg")
-print("First fashion mnist test image", y_test[0][0])
-plt.show(block = False)
-plt.pause(3)
-plt.close()
+    # Show the first image from the test set
+    plt.imshow(array_to_img(X_test[0]))
+    plt.savefig("first_cifar10_mnist_test_image.jpg")
+    print("First fashion mnist test image", y_test[0][0])
+    plt.show(block = False)
+    plt.pause(3)
+    plt.close()
 
 #pdb.set_trace()
 
@@ -100,6 +105,7 @@ if training == True:
     # Train the model, iterating on the data in batches of 32 samples
     model.fit(X_train, y_train, validation_split = 0.2, epochs=epochs, batch_size=32, callbacks = default_callbacks, verbose = 2)
 
+<<<<<<< HEAD
     score = model.evaluate(X_test, y_test, batch_size=32)
     print(score)
 
@@ -108,3 +114,7 @@ if classify == True:
     # load the image, pre-process it, and store it in the data list
     image = cv2.imread("first_cifar10_mnist_test_image.jpg")
     
+=======
+score = model.evaluate(X_test, y_test, batch_size=32)
+print(score)
+>>>>>>> 7d593c793947b4d6283758d8d74cce9d9444f079

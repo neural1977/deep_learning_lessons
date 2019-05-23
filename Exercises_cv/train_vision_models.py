@@ -16,6 +16,8 @@ from keras.callbacks import ModelCheckpoint
 from keras.datasets import cifar10
 from keras.utils import to_categorical
 from keras.optimizers import SGD
+from keras.preprocessing.image import array_to_img, img_to_array
+import matplotlib.pyplot as plt
 
 import os
 import pdb
@@ -27,12 +29,15 @@ import warnings
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore",category=DeprecationWarning)
 
+proxy = False
+proxy_server = "http://proxy.istat.it:3128"
 default_callbacks = []
-epochs = 10
-batch_size = 32
+epochs = 100
+batch_size = 8
 data_augmentation = False
 full_model_trainable = True
 depth = 3
+show_dataset = False
 
 data_type = 'float32'
 #data_type = 'float16'
@@ -40,10 +45,10 @@ data_type = 'float32'
 #neural_model = 'Xception'
 #neural_model = 'VGG16'
 #neural_model = 'VGG19'
-neural_model = 'ResNet50'
+#neural_model = 'ResNet50'
 #neural_model = 'MobileNet'
 #neural_model = 'InceptionResNetV2'
-#neural_model = 'NASNetLarge'
+neural_model = 'NASNetLarge'
 
 if neural_model == 'ResNet50' or neural_model == 'VGG16' or neural_model == 'MobileNet' or neural_model == 'VGG19': 
     height = 224
@@ -83,10 +88,14 @@ class AdvancedCVModel:
         elif neural_model == 'InceptionResNetV2':
             model = InceptionResNetV2(weights = weights, include_top=False, input_shape = inputShape)
         elif neural_model == 'NASNetLarge':
-            model = NASNetLarge(weights = weights, input_shape = inputShape)
+            model = NASNetLarge(weights = weights, include_top=False, input_shape = inputShape)
 
         # return the constructed network architecture
         return model
+
+# Set proxy
+if proxy == True:
+    os.environ["https_proxy"] = proxy_server
 
 # img_arr is of shape (n, h, w, c)
 def resize_image_arr(img_arr, height, width):
@@ -117,20 +126,21 @@ X_train = resize_image_arr(X_train, height, width)
 X_val = resize_image_arr(X_val, height, width)
 X_test = resize_image_arr(X_test, height, width)
 
-plt.imshow(array_to_img(X_train[0]))
-plt.savefig("first_resized_cifar10_mnist_train_image.jpg")
-print("First cifar10 mnist train image", y_train[0][0])
-plt.show(block = False)
-plt.pause(3)
-plt.close()
+if show_dataset == True:
+    plt.imshow(array_to_img(X_train[0]))
+    plt.savefig("first_resized_cifar10_mnist_train_image.jpg")
+    print("First cifar10 mnist train image", y_train[0][0])
+    plt.show(block = False)
+    plt.pause(3)
+    plt.close()
 
-# Show the first image from the test set
-plt.imshow(array_to_img(X_test[0]))
-plt.savefig("first_resized_cifar10_mnist_test_image.jpg")
-print("First fashion mnist test image", y_test[0][0])
-plt.show(block = False)
-plt.pause(3)
-plt.close()
+    # Show the first image from the test set
+    plt.imshow(array_to_img(X_test[0]))
+    plt.savefig("first_resized_cifar10_mnist_test_image.jpg")
+    print("First fashion mnist test image", y_test[0][0])
+    plt.show(block = False)
+    plt.pause(3)
+    plt.close()
 
 # Normalize the data
 X_train = X_train.astype(data_type)
@@ -171,7 +181,7 @@ if full_model_trainable == False:
 model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics = ['accuracy'])
 #model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics = ['accuracy'])
 
-checkPoint=ModelCheckpoint("advanceed_cifar10.cnn", save_weights_only=True, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+checkPoint=ModelCheckpoint("advanced_cifar10.cnn", save_weights_only=True, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 default_callbacks = default_callbacks+[checkPoint]
 pdb.set_trace()
 # Train the model, iterating on the data in batches
