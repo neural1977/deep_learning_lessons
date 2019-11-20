@@ -1,2 +1,2 @@
-# deep_learning_exercises
-Exercises for Deep Learning Classes
+# Deep Learning Lenssons Private Repository
+Private Repository for Deep Learning Lessons 
