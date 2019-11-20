@@ -1,2 +1,2 @@
-# Deep Learning Lessons Private Repository
-Private Repository for Deep Learning Lessons 
+# Deep Learning Lessons
+Slides and Exercises for the Deep Learning Course
