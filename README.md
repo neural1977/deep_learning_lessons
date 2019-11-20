@@ -1,2 +1,2 @@
-# Deep Learning Lenssons Private Repository
+# Deep Learning Lessons Private Repository
 Private Repository for Deep Learning Lessons 
