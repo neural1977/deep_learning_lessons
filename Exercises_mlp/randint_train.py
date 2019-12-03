@@ -20,9 +20,7 @@ input_dim = 784                                                     # set the di
 model = Sequential()                                                # Initialize Keras model as Sequential since this is a simple model (in keras there are 2 types of model: Sequential and Model for more complicated models    
 model.add(Dense(32, activation='relu', input_dim=input_dim))
 model.add(Dense(10, activation='softmax'))                          # softmax is actually a normalization e^y/sum(e^y) which produces probabilities
-model.compile(optimizer='sgd',
-              loss='categorical_crossentropy',
-              metrics=['accuracy'])
+model.compile(optimizer='sgd', loss='categorical_crossentropy',  metrics=['accuracy'])
 
 model.summary()
               
