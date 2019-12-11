@@ -18,12 +18,9 @@ default_callbacks = []
 limit = None
 split = None
 epochs = 100
-<<<<<<< HEAD
-training = False
+training = True
 classify = True
-=======
 show_dataset = False
->>>>>>> 7d593c793947b4d6283758d8d74cce9d9444f079
 
 # Set CPU or GPU type
 gpu = True
@@ -85,6 +82,7 @@ model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
+
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics = ['accuracy'])
               
@@ -105,16 +103,13 @@ if training == True:
     # Train the model, iterating on the data in batches of 32 samples
     model.fit(X_train, y_train, validation_split = 0.2, epochs=epochs, batch_size=32, callbacks = default_callbacks, verbose = 2)
 
-<<<<<<< HEAD
     score = model.evaluate(X_test, y_test, batch_size=32)
     print(score)
 
-if classify == True:
-    model.load_weights("cifar10.cnn")
+#if classify == True:
+#    model.load_weights("cifar10.cnn")
     # load the image, pre-process it, and store it in the data list
-    image = cv2.imread("first_cifar10_mnist_test_image.jpg")
+#    image = cv2.imread("first_cifar10_mnist_test_image.jpg")
     
-=======
 score = model.evaluate(X_test, y_test, batch_size=32)
 print(score)
->>>>>>> 7d593c793947b4d6283758d8d74cce9d9444f079

@@ -3,6 +3,7 @@ import keras
 import numpy as np
 import pdb
 import matplotlib.pyplot as plt
+import os
 
 # keras imports
 from keras.models import Sequential
@@ -15,6 +16,15 @@ from keras.optimizers import SGD
 # Program imports
 from Models.kconvnet import ConvNet
 from Preprocessing.preprocessing import Preprocess
+
+# Set CPU or GPU type
+gpu = True
+gpu_id = "0"
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"  
+if gpu == False: 
+    os.environ["CUDA_VISIBLE_DEVICES"] = ""
+else: 
+    os.environ["CUDA_VISIBLE_DEVICES"] = gpu_id
 
 default_callbacks = []
 input_size = 224
@@ -60,7 +70,7 @@ default_callbacks = default_callbacks+[earlyStopping]
 
 
 # Train the model, iterating on the data in batches of 32 samples
-model.fit(X_train, y_train, validation_split = 0.2, epochs=100, batch_size=32, callbacks = default_callbacks)
+model.fit(X_train, y_train, validation_split = 0.2, epochs=100, batch_size=2, callbacks = default_callbacks)
 
 score = model.evaluate(X_test, y_test, batch_size=32)
 print(score)

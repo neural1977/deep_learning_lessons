@@ -45,10 +45,10 @@ data_type = 'float32'
 #neural_model = 'Xception'
 #neural_model = 'VGG16'
 #neural_model = 'VGG19'
-#neural_model = 'ResNet50'
+neural_model = 'ResNet50'
 #neural_model = 'MobileNet'
 #neural_model = 'InceptionResNetV2'
-neural_model = 'NASNetLarge'
+#neural_model = 'NASNetLarge'
 
 if neural_model == 'ResNet50' or neural_model == 'VGG16' or neural_model == 'MobileNet' or neural_model == 'VGG19': 
     height = 224
@@ -192,5 +192,5 @@ else:
 
 	history = model.fit_generator(datagen.flow(X_train, y_train, batch_size = batch_size), steps_per_epoch = X_train.shape[0]/batch_size, epochs = epochs, validation_data = (X_val, y_val), callbacks = default_callbacks, verbose = 2)
 
-score = model.evaluate(X_test, y_test, batch_size=32)
+score = model.evaluate(X_test, y_test, batch_size=16)
 print(score)

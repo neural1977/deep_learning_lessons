@@ -19,6 +19,7 @@ random.seed(42)
 (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
 #(X_train, y_train), (X_test, y_test) = mnist.load_data()
 
+
 for k in range(1):
     # Show the first image from the training set
     plt.imshow(X_train[k], cmap = 'gray')
@@ -53,6 +54,8 @@ model.compile(optimizer='rmsprop',
               
 model.summary()
 
+#pdb.set_trace()
+
 # Convert labels to categorical one-hot encoding
 y_train = keras.utils.to_categorical(y_train, num_classes=10)
 y_test = keras.utils.to_categorical(y_test, num_classes=10)
@@ -64,7 +67,7 @@ earlyStopping=EarlyStopping(monitor='val_loss', min_delta = 0.01, patience=5, ve
 default_callbacks = default_callbacks+[earlyStopping]
 
 # Train the model, iterating on the data in batches of 32 samples
-model.fit(X_train, y_train, validation_split = 0.2, epochs=10, batch_size=128, 
+model.fit(X_train, y_train, validation_split = 0.2, epochs=20, batch_size=128, 
                                         callbacks = default_callbacks, verbose = 2)
                                                                                 
 #model.save_weights("fm.cnn")

@@ -29,6 +29,7 @@ class Preprocess:
             # load the image, pre-process it, and store it in the data list
             image = cv2.imread(imagePath)
             
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             
             if rescale == True: 
                 image = cv2.resize(image, (input_size, input_size))
