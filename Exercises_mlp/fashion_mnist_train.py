@@ -19,7 +19,6 @@ random.seed(42)
 (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
 #(X_train, y_train), (X_test, y_test) = mnist.load_data()
 
-
 for k in range(1):
     # Show the first image from the training set
     plt.imshow(X_train[k], cmap = 'gray')
