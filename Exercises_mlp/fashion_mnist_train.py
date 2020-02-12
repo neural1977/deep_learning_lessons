@@ -67,11 +67,11 @@ default_callbacks = default_callbacks+[earlyStopping]
 
 # Train the model, iterating on the data in batches of 32 samples
 model.fit(X_train, y_train, validation_split = 0.2, epochs=20, batch_size=128, 
-                                        callbacks = default_callbacks, verbose = 2)
+                                        callbacks = default_callbacks, verbose = 0)
                                                                                 
 #model.save_weights("fm.cnn")
 
-model.load_weights("fm.cnn")
+#model.load_weights("fm.cnn")
                                         
 score = model.evaluate(X_test, y_test, batch_size=5000)
 print(score)

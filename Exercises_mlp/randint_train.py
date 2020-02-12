@@ -32,7 +32,7 @@ labels = np.random.randint(10, size=(60000, 1))
 data = data / 255.0                                                  # for faster convergece of sgd
 
 # Convert labels to categorical one-hot encoding
-labels = to_categorical(labels, num_classes=10)                      # translate to a matrix 60000 x 10, with 5th column = 1 if the label is 5, the 8th col = 1 if label = 8, otherwise is 0
+#labels = to_categorical(labels, num_classes=10)                      # translate to a matrix 60000 x 10, with 5th column = 1 if the label is 5, the 8th col = 1 if label = 8, otherwise is 0
                                                                      # this is because: output from neural network is a vector of 10 probabilities whereas label vectors is made of scalars (single values), for example 5,4,2,8
                                                                      # in order to calculate derivatives we have to translate labels vector in one-hot encoding: 8 becomes [0,0,0,0,0,0,0,1,0,0], this is what to_categorical does
 # Train the model, iterating on the data in batches of 32 samples
