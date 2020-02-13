@@ -9,6 +9,7 @@ import pdb
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.utils import to_categorical
+from keras.datasets import fashion_mnist
 
 import warnings
 
@@ -25,8 +26,12 @@ model.compile(optimizer='sgd', loss='categorical_crossentropy',  metrics=['accur
 model.summary()
               
 # Generate dummy data
-data = np.random.randint(255, size=(60000, input_dim))
-labels = np.random.randint(10, size=(60000, 1))
+#data = np.random.randint(255, size=(60000, input_dim))
+#labels = np.random.randint(10, size=(60000, 1))
+
+(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+
+pdb.set_trace()
 
 # Normalization
 data = data / 255.0                                                  # for faster convergece of sgd
