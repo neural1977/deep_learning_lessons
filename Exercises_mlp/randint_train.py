@@ -26,12 +26,10 @@ model.compile(optimizer='sgd', loss='categorical_crossentropy',  metrics=['accur
 model.summary()
               
 # Generate dummy data
-#data = np.random.randint(255, size=(60000, input_dim))
-#labels = np.random.randint(10, size=(60000, 1))
+data = np.random.randint(255, size=(60000, input_dim))
+labels = np.random.randint(10, size=(60000, 10))
 
-(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
-
-pdb.set_trace()
+#(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 
 # Normalization
 data = data / 255.0                                                  # for faster convergece of sgd
