@@ -23,10 +23,10 @@ from keras.models import Model
 from keras.initializers import Constant
 import pdb
 
-EMBEDDINGS_DIR = 'G:/Embeddings/glove.6B'
-TEXT_DATA_DIR = 'G:/Sentiment Data/news20/20_newsgroup'
+EMBEDDINGS_DIR = 'G:/Dropbox/Datasets/Embeddings/glove.6B'
+TEXT_DATA_DIR = 'G:/Dropbox/Datasets/Topic_modeling/20_newsgroup'
 MAX_SEQUENCE_LENGTH = 1000
-MAX_NUM_WORDS = 20000
+MAX_NUM_WORDS = 10000
 EMBEDDING_DIM = 200
 VALIDATION_SPLIT = 0.2
 
@@ -68,6 +68,8 @@ for name in sorted(os.listdir(TEXT_DATA_DIR)):
                 labels.append(label_id)
 
 print('Found %s texts.' % len(texts))
+
+pdb.set_trace()
 
 # finally, vectorize the text samples into a 2D integer tensor
 tokenizer = Tokenizer(num_words=MAX_NUM_WORDS)
