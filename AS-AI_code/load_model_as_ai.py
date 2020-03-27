@@ -12,6 +12,7 @@ learning_rate = 0.1
 batch_size = 32
 normalization = True
 cifar10_ds = True
+best_model = True
 
 if cifar10_ds == True: 
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
@@ -26,7 +27,10 @@ if normalization == True:
 model = Lenet5.build(depth, input_size, input_size, classes, False)
 model.compile(optimizer = "sgd", loss = "categorical_crossentropy", metrics = ["accuracy"])
 
-model.load_weights("last_epoch_model.hdf5")
+if best_model == True: 
+    model.load_weights("best_epoch_model.hdf5")
+else:     
+    model.load_weights("last_epoch_model.hdf5")
 
 if cifar10_ds == True: 
     y_test = to_categorical(y_test, num_classes = classes)

@@ -4,12 +4,18 @@ Spyder Editor
 
 This is a temporary script file.
 """
+# Keras imports
 from keras.datasets import cifar10
 from keras.optimizers import SGD, Adam 
 from keras.losses import categorical_crossentropy
 from keras.utils import to_categorical
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
+
+# Program imports
 from Models.convnet import Lenet5
+from Utils.view import View
+
+# General imports
 import warnings
 import pdb
 import numpy as np
@@ -37,7 +43,7 @@ if cifar10_ds == True:
     
 if develop == True: 
     limit = 1000
-    epochs = 10
+    epochs = 20
 
 if limit is not None: 
     x_train = x_train[0:limit]
@@ -71,10 +77,13 @@ default_callbacks = default_callbacks + [earlyStopping]
 csv_logger = CSVLogger('history.log')
 default_callbacks = default_callbacks + [csv_logger]
 
-model.fit(x_train, y_train, validation_split=0.2, epochs = epochs, batch_size = batch_size, shuffle=True, callbacks = default_callbacks)
+history = model.fit(x_train, y_train, validation_split=0.2, epochs = epochs, batch_size = batch_size, shuffle=True, callbacks = default_callbacks)
 
 model.save_weights('last_epoch_model.hdf5')
     
+View.plot_loss(history)
+View.plot_acc(history)
+
 # Prediction Stage
 print(x_test[10,:])
 print(y_test[10])
