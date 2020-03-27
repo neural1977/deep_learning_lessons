@@ -47,7 +47,7 @@ dest_input_size = 128
 
 if develop: 
     limit = None
-    epochs = 2
+    epochs = 5
 
 if cifar10_ds: 
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
