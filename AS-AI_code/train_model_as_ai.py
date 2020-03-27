@@ -12,6 +12,7 @@ from keras.utils import to_categorical
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
 
 # Program imports
+from Preprocessing.preprocessing import LoadData
 from Models.convnet import Lenet5
 from Utils.view import View
 
@@ -26,38 +27,53 @@ with warnings.catch_warnings():
 # Initialization
 default_callbacks = []
 
+# Globals
+labels_garbage_list = ["glass", "metal", "paper", "plastic", "trash"]             
+labels_eurosat_list = ["AnnualCrop", "Forest"]             
+
+
 # Hyperparameter
 learning_rate = 0.1
 epochs = 2
 limit = None
 batch_size = 32
 normalization = True
-cifar10_ds = True
-develop = True
 
-if cifar10_ds == True: 
+# Dataset parameters
+cifar10_ds = False
+garbage_ds = True
+develop = True
+dest_input_size = 128
+
+if develop: 
+    limit = None
+    epochs = 2
+
+if cifar10_ds: 
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
     input_size = x_train.shape[2]
     depth = x_train.shape[1]
     classes = len(np.unique(y_train))
     
-if develop == True: 
-    limit = 1000
-    epochs = 20
+if garbage_ds:
+    [x_train, y_train, x_val, y_val, x_test, y_test] = LoadData.load_dataset_cv('G:/Dropbox/Datasets/Garbage Data Set', labels_garbage_list, 0.1, 0.1, True, limit, dest_input_size, True)
+    input_size = x_train.shape[2]
+    depth = x_train.shape[1]
+    classes = len(np.unique(y_train))
 
-if limit is not None: 
+if cifar10_ds and limit is not None: 
     x_train = x_train[0:limit]
     y_train = y_train[0:limit]
     x_test = x_test[0:limit]
     y_test = y_test[0:limit]
     
 # Normalization
-if normalization == True: 
+if normalization: 
     x_train = x_train / 255.0
     x_test = x_test / 255.0 
 
 # One-hot encoding of output
-if cifar10_ds == True: 
+if cifar10_ds or garbage_ds: 
     y_train = to_categorical(y_train, num_classes = classes)
     y_test = to_categorical(y_test, num_classes = classes)
 
