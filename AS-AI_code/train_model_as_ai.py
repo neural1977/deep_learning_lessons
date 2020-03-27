@@ -8,7 +8,7 @@ from keras.datasets import cifar10
 from keras.optimizers import SGD, Adam 
 from keras.losses import categorical_crossentropy
 from keras.utils import to_categorical
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
 from Models.convnet import Lenet5
 import warnings
 import pdb
@@ -62,12 +62,15 @@ sgd = SGD(lr = learning_rate)
 
 model.compile(optimizer = sgd, loss = "categorical_crossentropy", metrics = ["accuracy"])
 
-checkPoint=ModelCheckpoint("cifar10.cnn", save_weights_only=True, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-default_callbacks = default_callbacks+[checkPoint]
-'''
-check_point = ModelCheckpoint("best_epoch_mode.hdf5", save_weights_only = True, monitor = "val_acc", verbose = 1, save_best_only = True, mode = "max")
+check_point = ModelCheckpoint("best_epoch_model.hdf5", save_weights_only = True, monitor = "val_accuracy", verbose = 1, save_best_only = True, mode = "max")
 default_callbacks = default_callbacks + [check_point]
-'''
+
+earlyStopping = EarlyStopping(monitor = 'val_loss', min_delta = 0.01, patience = 10, verbose = 0, mode = 'min') 
+default_callbacks = default_callbacks + [earlyStopping]
+
+csv_logger = CSVLogger('history.log')
+default_callbacks = default_callbacks + [csv_logger]
+
 model.fit(x_train, y_train, validation_split=0.2, epochs = epochs, batch_size = batch_size, shuffle=True, callbacks = default_callbacks)
 
 model.save_weights('last_epoch_model.hdf5')
