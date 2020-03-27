@@ -16,7 +16,7 @@ from keras.optimizers import SGD
 import os
 
 default_callbacks = []
-limit = None
+limit = 1000
 split = None
 epochs = 100
 training = True

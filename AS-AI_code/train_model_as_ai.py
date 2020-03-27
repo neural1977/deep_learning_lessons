@@ -8,6 +8,7 @@ from keras.datasets import cifar10
 from keras.optimizers import SGD, Adam 
 from keras.losses import categorical_crossentropy
 from keras.utils import to_categorical
+from keras.callbacks import ModelCheckpoint
 from Models.convnet import Lenet5
 import warnings
 import pdb
@@ -16,15 +17,17 @@ import numpy as np
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=Warning)
 
+# Initialization
+default_callbacks = []
+
 # Hyperparameter
 learning_rate = 0.1
 epochs = 2
-save_best_model = False
 limit = None
 batch_size = 32
 normalization = True
 cifar10_ds = True
-develop = False
+develop = True
 
 if cifar10_ds == True: 
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
@@ -34,15 +37,13 @@ if cifar10_ds == True:
     
 if develop == True: 
     limit = 1000
-    epochs = 2
+    epochs = 10
 
 if limit is not None: 
     x_train = x_train[0:limit]
     y_train = y_train[0:limit]
     x_test = x_test[0:limit]
     y_test = y_test[0:limit]
-    
-#pdb.set_trace()
     
 # Normalization
 if normalization == True: 
@@ -55,21 +56,29 @@ if cifar10_ds == True:
     y_test = to_categorical(y_test, num_classes = classes)
 
 model = Lenet5.build(depth, input_size, input_size, classes,True)
-sgd = SGD(learning_rate = learning_rate)
+sgd = SGD(lr = learning_rate)
 #sgd = Adam(lr = learning_rate)
 #ccentropy = categorical_crossentropy(from_logits = False) 
 
-
 model.compile(optimizer = sgd, loss = "categorical_crossentropy", metrics = ["accuracy"])
 
-model.fit(x_train, y_train, validation_split=0.2, epochs = epochs, batch_size = batch_size, shuffle=True)
+checkPoint=ModelCheckpoint("cifar10.cnn", save_weights_only=True, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+default_callbacks = default_callbacks+[checkPoint]
+'''
+check_point = ModelCheckpoint("best_epoch_mode.hdf5", save_weights_only = True, monitor = "val_acc", verbose = 1, save_best_only = True, mode = "max")
+default_callbacks = default_callbacks + [check_point]
+'''
+model.fit(x_train, y_train, validation_split=0.2, epochs = epochs, batch_size = batch_size, shuffle=True, callbacks = default_callbacks)
 
-if save_best_model == False: 
-    model.save_weights('last_epoch_model.hdf5')
+model.save_weights('last_epoch_model.hdf5')
     
 # Prediction Stage
 print(x_test[10,:])
 print(y_test[10])
+
+# Evaluation Stage
+score = model.evaluate(x_test, y_test, batch_size=32)
+print("Accuracy on test set: ", score[1]*100)
 
 pred = model.predict(x_test)
 
