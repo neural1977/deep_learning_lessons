@@ -28,31 +28,30 @@ with warnings.catch_warnings():
 default_callbacks = []
 
 # Globals
-labels_garbage_list = ["glass", "metal", "paper", "plastic", "trash"]             
-labels_eurosat_list = ["AnnualCrop", "Forest"]             
-
+labels_garbage_list = ["glass", "metal", "paper", "plastic", "trash"]
 
 # Hyperparameter
 learning_rate = 0.1
-epochs = 2
+epochs = 10
 limit = None
 batch_size = 32
 normalization = True
 
 # Dataset parameters
-cifar10_ds = False
-garbage_ds = True
-develop = True
+cifar10_ds = True
+garbage_ds = False
+develop = False
 dest_input_size = 128
 
 if develop: 
-    limit = None
-    epochs = 5
+    limit = 1000
+    epochs = 10
 
 if cifar10_ds: 
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-    input_size = x_train.shape[2]
-    depth = x_train.shape[1]
+    input_size = x_train.shape[1]
+    depth = x_train.shape[3]
+    #pdb.set_trace()
     classes = len(np.unique(y_train))
     
 if garbage_ds:
@@ -80,7 +79,6 @@ if cifar10_ds or garbage_ds:
 model = Lenet5.build(depth, input_size, input_size, classes,True)
 sgd = SGD(lr = learning_rate)
 #sgd = Adam(lr = learning_rate)
-#ccentropy = categorical_crossentropy(from_logits = False) 
 
 model.compile(optimizer = sgd, loss = "categorical_crossentropy", metrics = ["accuracy"])
 
@@ -99,31 +97,3 @@ model.save_weights('last_epoch_model.hdf5')
     
 View.plot_loss(history)
 View.plot_acc(history)
-
-# Prediction Stage
-print(x_test[10,:])
-print(y_test[10])
-
-# Evaluation Stage
-score = model.evaluate(x_test, y_test, batch_size=32)
-print("Accuracy on test set: ", score[1]*100)
-
-pred = model.predict(x_test)
-
-print(pred.shape)
-print("Prediction probs: ", pred[10])
-print("Sum of probs: ", pred[10].sum())
-print("Prediction class: ", np.argmax(pred[10]))
-
-print(x_test[10,:].shape)
-num_image = 10
-num_elements= 200
-print("Label: ", y_test[num_image])
-x_test_image1= x_test[10,:]
-x_test_image2= x_test[10:10+num_elements,:]
-#pred_class = model.predict_classes(x_test[num_image:num_image+1,:])
-pred_class = model.predict_classes(x_test_image2, batch_size = 200)
-print(x_test_image1.shape)
-print(x_test_image2.shape)
-print(pred_class.shape)
-print("Prediction class: ", pred_class[0])

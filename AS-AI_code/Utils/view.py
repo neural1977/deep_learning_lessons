@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Mar 27 10:22:35 2020
+Created on 12/05/2020
 
-@author: francesco
+@author: Francesco Pugliese, Vamsi Gunturi
 """
 import matplotlib.pyplot as plt
 
