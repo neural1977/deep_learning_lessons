@@ -16,8 +16,8 @@ default_callbacks = []
 random.seed(42)
 
 #download mnist data and split into train and test sets
-(X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
-#(X_train, y_train), (X_test, y_test) = mnist.load_data()
+#(X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
 
 for k in range(1):
     # Show the first image from the training set
